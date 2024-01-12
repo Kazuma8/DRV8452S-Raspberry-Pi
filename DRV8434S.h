@@ -1424,7 +1424,7 @@ public:
 
 protected:
 
-  uint8_t ctrl1, ctrl2, ctrl3, ctrl4, ctrl5, ctrl6, ctrl7, ctrl8, ctrl9, ctrl10, ctrl11, ctrl12, ctrl13, ctrl14;
+  uint8_t ctrl1, ctrl2, ctrl3, ctrl4, ctrl5, ctrl6, ctrl7, ctrl8, ctrl9, ctrl10, ctrl11, ctrl12, ctrl13, ctrl14, index1, index2, index3, index4, index5, custctrl1, custctrl2, custctrl3, custctrl4, custctrl5, custctrl6, custctrl7, custctrl8, custctrl9, atqctrl1, atqctrl2, atqctrl3, atqctrl4, atqctrl5, atqctrl6, atqctrl7, atqctrl8, atqctrl9, atqctrl10, atqctrl11, atqctrl12, atqctrl13, atqctrl14, atqctrl15, atqctrl16, atqctrl17, atqctrl18, ssctrl1, ssctrl2, ssctrl3, ssctrl4, ssctrl5;
 
   /// Returns a pointer to the variable containing the cached value for the
   /// given register.
@@ -1446,6 +1446,42 @@ protected:
       case DRV8461_REG_ADDR::DRV8461_REG_CTRL12: return &ctrl12;
       case DRV8461_REG_ADDR::DRV8461_REG_CTRL13: return &ctrl13;
       case DRV8461_REG_ADDR::DRV8461_REG_CTRL14: return &ctrl14;
+      case DRV8461_REG_ADDR::DRV8461_REG_INDEX1: return &index1;
+      case DRV8461_REG_ADDR::DRV8461_REG_INDEX2: return &index2;
+      case DRV8461_REG_ADDR::DRV8461_REG_INDEX3: return &index3;
+      case DRV8461_REG_ADDR::DRV8461_REG_INDEX4: return &index4;
+      case DRV8461_REG_ADDR::DRV8461_REG_INDEX5: return &index5;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL1: return &custctrl1;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL2: return &custctrl2;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL3: return &custctrl3;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL4: return &custctrl4;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL5: return &custctrl5;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL6: return &custctrl6;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL7: return &custctrl7;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL8: return &custctrl8;
+      case DRV8461_REG_ADDR::DRV8461_REG_CUSTOM_CTRL9: return &custctrl9;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL1: return &atqctrl1;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL2: return &atqctrl2;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL3: return &atqctrl3;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL4: return &atqctrl4;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL5: return &atqctrl5;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL6: return &atqctrl6;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL7: return &atqctrl7;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL8: return &atqctrl8;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL9: return &atqctrl9;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL11: return &atqctrl11;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL12: return &atqctrl12;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL13: return &atqctrl13;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL14: return &atqctrl14;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL15: return &atqctrl15;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL16: return &atqctrl16;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL17: return &atqctrl17;
+      case DRV8461_REG_ADDR::DRV8461_REG_ATQ_CTRL18: return &atqctrl18;
+      case DRV8461_REG_ADDR::DRV8461_REG_SS_CTRL1: return &ssctrl1;
+      case DRV8461_REG_ADDR::DRV8461_REG_SS_CTRL2: return &ssctrl2;
+      case DRV8461_REG_ADDR::DRV8461_REG_SS_CTRL3: return &ssctrl3;
+      case DRV8461_REG_ADDR::DRV8461_REG_SS_CTRL4: return &ssctrl4;
+      case DRV8461_REG_ADDR::DRV8461_REG_SS_CTRL5: return &ssctrl5;
   
       default: return nullptr;
     }
