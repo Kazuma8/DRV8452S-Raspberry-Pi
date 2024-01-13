@@ -1382,6 +1382,14 @@ public:
     return driver.readReg(DRV8461_REG_ADDR::DRV8461_REG_DIAG2);
   }
 
+
+
+//Reads the Mechanical Load Torque status.
+  uint8_t readLoadTorque()
+  {
+    return driver.readReg(DRV8461_REG_ADDR::DRV8461_REG_ATQ;_CTRL1)
+  }
+
   /// Clears any fault conditions that are currently latched in the driver
   /// (CLR_FLT = 1).
   ///
