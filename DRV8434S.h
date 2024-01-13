@@ -1318,7 +1318,7 @@ public:
   /// ~~~{.cpp}
   /// sd.setStepMode(32);
   /// ~~~
-  void setStepMode(uint16_t mode)
+  int setStepMode(uint16_t mode)
   {
     DRV8461_Micostep_Mode sm;
 
@@ -1334,11 +1334,11 @@ public:
       case 128: sm = DRV8461_Micostep_Mode::DRV8461_MICROSTEP_128;  break;
       case 256: sm = DRV8461_Micostep_Mode::DRV8461_MICROSTEP_256;  break;
 
-      // Invalid mode; pick 1/16 micro-step by default.
-      default:  sm = DRV8461_Micostep_Mode::DRV8461_MICROSTEP_16;
+      // Invalid mode; pick 1/16 micro-step by default, returns 0 for error checking.
+      default:  sm = DRV8461_Micostep_Mode::DRV8461_MICROSTEP_16; return(sm, 1);
     }
 
-    setStepMode(sm);
+    setStepMode(sm, 0);
   }
 
   /// Reads the FAULT status register of the driver.
