@@ -724,7 +724,6 @@ public:
   /// sd.setStepMode(DRV8461StepMode::MicroStep32);
   /// ~~~
 
-stop ---------------------------CORRECT UP TO HERE
 
   void setStepMode(DRV8461StepMode mode)
   {
@@ -734,8 +733,8 @@ stop ---------------------------CORRECT UP TO HERE
       mode = DRV8461StepMode::MicroStep16;
     }
 
-    ctrl3 = (ctrl3 & 0b11110000) | (uint8_t)mode;
-    writeCachedReg(DRV8461RegAddr::CTRL3);
+    ctrl2 = (ctrl2 & 0b11110000) | (uint8_t)mode;
+    writeCachedReg(DRV8461RegAddr::CTRL2);
   }
 
   /// Sets the driver's stepping mode (MICROSTEP_MODE).
@@ -811,6 +810,17 @@ stop ---------------------------CORRECT UP TO HERE
     return driver.readReg(DRV8461RegAddr::DIAG2);
   }
 
+  /// Reads the DIAG3 status register of the driver.
+  /// 
+  /// The return value is an 8-bit unsigned integer that has one bit for each
+  /// DIAG3 condition.  You can simply compare the return value to 0 to see if
+  /// any of the bits are set, or you can use the logical AND operator (`&`) and
+  /// the #DRV8461Diag3Bit enum to check individual bits.
+  uint8_t readDiag3()
+  {
+    return driver.readReg(DRV8461RegAddr::DIAG3);
+  }
+
   /// Clears any fault conditions that are currently latched in the driver
   /// (CLR_FLT = 1).
   ///
@@ -822,7 +832,7 @@ stop ---------------------------CORRECT UP TO HERE
   /// The driver automatically clears the CLR_FLT bit after it is written.
   void clearFaults()
   {
-    driver.writeReg(DRV8461RegAddr::CTRL4, ctrl4 | (1 << 7));
+    driver.writeReg(DRV8461RegAddr::CTRL3, ctrl3 | (1 << 7));
   }
 
   /// Gets the cached value of a register. If the given register address is not
