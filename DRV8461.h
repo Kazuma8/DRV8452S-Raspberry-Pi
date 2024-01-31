@@ -1,3 +1,7 @@
+#ifndef DRV8461_REGISTERS_H
+#define DRV8461_REGISTERS_H
+
+
 // Copyright Pololu Corporation.  For more information, see http://www.pololu.com/
 
 /// \file DRV8461.h
@@ -10,8 +14,6 @@
 ///   https://github.com/pololu/DRV8461-arduino
 ///
 /// That is the main repository for this library.
-
-#pragma once
 
 #include <Arduino.h>
 #include <SPI.h>
@@ -331,7 +333,7 @@ public:
     ctrl4 = 0x30;
     ctrl5 = 0x08;
     ctrl6 = 0x03;
-    ctrl7 = 0x20;
+
   }
 
   /// Configures this object to use the specified pin as a chip select pin.
@@ -354,7 +356,7 @@ public:
     ctrl4 = 0x30;
     ctrl5 = 0x08;
     ctrl6 = 0x03;
-    ctrl7 = 0x20;
+
     applySettings();
   }
 
