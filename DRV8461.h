@@ -18,6 +18,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 
+#include "DRV8461CTRL.h"
+
 /// Addresses of all registers.
 enum class DRV8461RegAddr : uint8_t
 {
@@ -244,13 +246,13 @@ public:
   /// Reads the register at the given address and returns its raw value.
   uint8_t readReg(uint8_t address)
   {
-    // Arduino out / DRV8434 in: First byte contains read/write bit and register
+    // Arduino out / DRV8461 in: First byte contains read/write bit and register
     // address; second byte is unused.
-    // Arduino in / DRV8434 out: First byte contains status; second byte
+    // Arduino in / DRV8461 out: First byte contains status; second byte
     // contains data in register being read.
 
     selectChip();
-    lastStatus = transfer((0x20 | (address & 0b11111)) << 1);
+    lastStatus = transfer((0x20 | (address & 0b111111)));
     uint8_t data = transfer(0);
     deselectChip();
     return data;
@@ -265,13 +267,13 @@ public:
   /// Writes the specified value to a register.
   uint8_t writeReg(uint8_t address, uint8_t value)
   {
-    // Arduino out / DRV8434 in: First byte contains read/write bit and register
+    // Arduino out / DRV8461 in: First byte contains read/write bit and register
     // address; second byte contains data to write to register.
-    // Arduino in / DRV8434 out: First byte contains status; second byte
+    // Arduino in / DRV8461 out: First byte contains status; second byte
     // contains old (existing) data in register being written to.
 
     selectChip();
-    lastStatus = transfer((address & 0b11111) << 1);
+    lastStatus = transfer(address & 0b111111);
     uint8_t oldData = transfer(value);
     // The CS line must go low after writing for the value to actually take
     // effect.
@@ -326,18 +328,53 @@ public:
   /// The default constructor.
   DRV8461()
   {
-    // All settings set to power-on defaults
-    ctrl1 = 0x00;
-    ctrl2 = 0x0F;
-    ctrl3 = 0x06;
-    ctrl4 = 0x30;
-    ctrl5 = 0x08;
-    ctrl6 = 0x03;
-
+    // All settings set to power-on defaults (ONLY TRUE ON POWER-ON)
+    ctrl1  = 0x0F;
+    ctrl2  = 0x06;
+    ctrl3  = 0x38;
+    ctrl4  = 0x49;
+    ctrl5  = 0x03;
+    ctrl6  = 0x20;
+    ctrl9  = 0x10;
+    ctrl10 = 0x80;
+    ctrl11 = 0xFF;
+    ctrl12 = 0x20;
+    ctrl13 = 0x10;
+    ctrl14 = 0x58;
+    custom_ctrl1 = 0x00;
+    custom_ctrl2 = 0x00;
+    custom_ctrl3 = 0x00;
+    custom_ctrl4 = 0x00;
+    custom_ctrl5 = 0x00;
+    custom_ctrl6 = 0x00;
+    custom_ctrl7 = 0x00;
+    custom_ctrl8 = 0x00;
+    custom_ctrl9 = 0x00;
+    atq_ctrl2 = 0x00;
+    atq_ctrl3 = 0x00;
+    atq_ctrl4 = 0x20;
+    atq_ctrl5 = 0x00;
+    atq_ctrl6 = 0x00;
+    atq_ctrl7 = 0x00;
+    atq_ctrl8 = 0x00;
+    atq_ctrl9 = 0x00;
+    atq_ctrl10 = 0x08;
+    atq_ctrl11 = 0x0A;
+    atq_ctrl12 = 0xFF;
+    atq_ctrl13 = 0x05;
+    atq_ctrl14 = 0x2C;
+    atq_ctrl15 = 0x00;
+    atq_ctrl17 = 0x00;
+    atq_ctrl18 = 0x00;
+    ss_ctrl1 = 0x00;
+    ss_ctrl2 = 0x00;
+    ss_ctrl3 = 0x00;
+    ss_ctrl4 = 0x00;
+    ss_ctrl5 = 0xFF;
   }
 
   /// Configures this object to use the specified pin as a chip select pin.
-  /// You must use a chip select pin; the DRV8711 requires it.
+  /// You must use a chip select pin; the DRV8461 requires it.
   void setChipSelectPin(uint8_t pin)
   {
     driver.setChipSelectPin(pin);
@@ -350,12 +387,48 @@ public:
   /// operation of the driver.
   void resetSettings()
   {
-    ctrl1 = 0x00;
-    ctrl2 = 0x0F;
-    ctrl3 = 0x06;
-    ctrl4 = 0x30;
-    ctrl5 = 0x08;
-    ctrl6 = 0x03;
+    ctrl1  = 0x0F;
+    ctrl2  = 0x06;
+    ctrl3  = 0x38;
+    ctrl4  = 0x49;
+    ctrl5  = 0x03;
+    ctrl6  = 0x20;
+    ctrl9  = 0x10;
+    ctrl10 = 0x80;
+    ctrl11 = 0xFF;
+    ctrl12 = 0x20;
+    ctrl13 = 0x10;
+    ctrl14 = 0x58;
+    custom_ctrl1 = 0x00;
+    custom_ctrl2 = 0x00;
+    custom_ctrl3 = 0x00;
+    custom_ctrl4 = 0x00;
+    custom_ctrl5 = 0x00;
+    custom_ctrl6 = 0x00;
+    custom_ctrl7 = 0x00;
+    custom_ctrl8 = 0x00;
+    custom_ctrl9 = 0x00;
+    atq_ctrl2 = 0x00;
+    atq_ctrl3 = 0x00;
+    atq_ctrl4 = 0x20;
+    atq_ctrl5 = 0x00;
+    atq_ctrl6 = 0x00;
+    atq_ctrl7 = 0x00;
+    atq_ctrl8 = 0x00;
+    atq_ctrl9 = 0x00;
+    atq_ctrl10 = 0x08;
+    atq_ctrl11 = 0x0A;
+    atq_ctrl12 = 0xFF;
+    atq_ctrl13 = 0x05;
+    atq_ctrl14 = 0x2C;
+    atq_ctrl15 = 0x00;
+    atq_ctrl17 = 0x00;
+    atq_ctrl18 = 0x00;
+    ss_ctrl1 = 0x00;
+    ss_ctrl2 = 0x00;
+    ss_ctrl3 = 0x00;
+    ss_ctrl4 = 0x00;
+    ss_ctrl5 = 0xFF;
 
     applySettings();
   }
@@ -377,7 +450,43 @@ public:
            driver.readReg(DRV8461RegAddr::CTRL4) == ctrl4 &&
            driver.readReg(DRV8461RegAddr::CTRL5) == ctrl5 &&
            driver.readReg(DRV8461RegAddr::CTRL6) == ctrl6 &&
-           driver.readReg(DRV8461RegAddr::CTRL7) == ctrl7;
+           driver.readReg(DRV8461RegAddr::CTRL9) == ctrl9 &&
+           driver.readReg(DRV8461RegAddr::CTRL10) == ctrl10 &&
+           driver.readReg(DRV8461RegAddr::CTRL11) == ctrl11 &&
+           driver.readReg(DRV8461RegAddr::CTRL12) == ctrl12 &&
+           driver.readReg(DRV8461RegAddr::CTRL13) == ctrl13 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL1) == custom_ctrl1 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL2) == custom_ctrl2 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL3) == custom_ctrl3 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL4) == custom_ctrl4 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL5) == custom_ctrl5 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL6) == custom_ctrl6 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL7) == custom_ctrl7 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL8) == custom_ctrl8 &&
+           driver.readReg(DRV8461RegAddr::CUSTOM_CTRL9) == custom_ctrl9 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL2) == atq_ctrl2 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL3) == atq_ctrl3 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL4) == atq_ctrl4 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL5) == atq_ctrl5 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL6) == atq_ctrl6 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL7) == atq_ctrl7 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL8) == atq_ctrl8 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL9) == atq_ctrl9 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL10) == atq_ctrl10 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL11) == atq_ctrl11 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL12) == atq_ctrl12 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL13) == atq_ctrl13 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL14) == atq_ctrl14 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL15) == atq_ctrl15 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL17) == atq_ctrl17 &&
+           driver.readReg(DRV8461RegAddr::ATQ_CTRL18) == atq_ctrl18 &&
+           driver.readReg(DRV8461RegAddr::SS_CTRL1) == ss_ctrl1 &&
+           driver.readReg(DRV8461RegAddr::SS_CTRL2) == ss_ctrl2 &&
+           driver.readReg(DRV8461RegAddr::SS_CTRL3) == ss_ctrl3 &&
+           driver.readReg(DRV8461RegAddr::SS_CTRL4) == ss_ctrl4 &&
+           driver.readReg(DRV8461RegAddr::SS_CTRL5) == ss_ctrl5 &&
+           driver.readReg(DRV8461RegAddr::CTRL14) == ctrl14;
+
   }
 
   /// Re-writes the cached settings stored in this class to the device.
@@ -389,7 +498,6 @@ public:
   /// back into the desired state.
   void applySettings()
   {
-    writeCachedReg(DRV8461RegAddr::CTRL1);
     writeCachedReg(DRV8461RegAddr::CTRL2);
     writeCachedReg(DRV8461RegAddr::CTRL3);
     writeCachedReg(DRV8461RegAddr::CTRL4);
@@ -400,9 +508,38 @@ public:
     writeCachedReg(DRV8461RegAddr::CTRL11);
     writeCachedReg(DRV8461RegAddr::CTRL12);
     writeCachedReg(DRV8461RegAddr::CTRL13);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL1);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL2);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL3);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL4);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL5);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL6);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL7);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL8);
+    writeCachedReg(DRV8461RegAddr::CUSTOM_CTRL9);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL2);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL3);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL4);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL5);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL6);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL7);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL8);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL9);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL10);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL11);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL12);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL13);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL14);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL15);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL17);
+    writeCachedReg(DRV8461RegAddr::ATQ_CTRL18);
+    writeCachedReg(DRV8461RegAddr::SS_CTRL1);
+    writeCachedReg(DRV8461RegAddr::SS_CTRL2);
+    writeCachedReg(DRV8461RegAddr::SS_CTRL3);
+    writeCachedReg(DRV8461RegAddr::SS_CTRL4);
+    writeCachedReg(DRV8461RegAddr::SS_CTRL5);
     writeCachedReg(DRV8461RegAddr::CTRL14);
-    writeCachedReg(DRV8461RegAddr::CSTMCTRL1);
-    writeCachedReg(DRV8461RegAddr::CTRL1);
+
 
     // CTRL1 is written last because it contains the EN_OUT bit, and we want to
     // try to have all the other settings correct first.
@@ -432,14 +569,14 @@ public:
   /// // to an integer (43), that is then rounded up by 0.75% to 43.75%:
   /// sd.setCurrentPercent(43.75);
   /// ~~~
-  void setCurrentPercent(uint8_t percent)
+  void setCurrentPercent(float percent)
   {
     if (percent > 100) { percent = 100; }
     if (percent < (1/256)*100) { percent = 0.4; }
 
-    uint8_t td = ((uint16_t)percent * 64) / 25; // convert 0.4-100% to 1-256,
+    uint8_t td = (percent * 64) / 25; // convert 0.4-100% to 1-256,
     td = td - 1
-    ctrl11 = 0b0000000 | (td);
+    ctrl11 = 0b00000000 | (td);
     writeCachedReg(DRV8461RegAddr::CTRL11);
   }
 
@@ -467,25 +604,25 @@ public:
     if (fullCurrent > 4000) { fullCurrent = 4000; }
     if (current > fullCurrent) { current = fullCurrent; }
 
-    uint8_t td = (current * 16 / fullCurrent); // convert 0-fullCurrent to 0-16
-    if (td == 0) { td = 1; }                   // restrict to 1-16
-    td = 16 - td;                              // convert 1-16 to 15-0 (15 = 6.25%, 0 = 100%)
-    ctrl1 = (ctrl1 & 0b00001111) | (td << 4);
-    writeCachedReg(DRV8461RegAddr::CTRL1);
+    uint8_t td = (current/fullCurrent * 256); // convert 0-fullCurrent to 0-256
+    if (td == 0) {td = 1;}
+    td = td - 1;                               // convert 0-256 to 0-255 (0 = 0.39%, 255 = 100%)
+    ctrl11 = (ctrl11 & 0b00000000) | td;
+    writeCachedReg(DRV8461RegAddr::CTRL11);
   }
 
   /// Enables the driver (EN_OUT = 1).
   void enableDriver()
   {
-    ctrl2 |= (1 << 7);
-    writeCachedReg(DRV8461RegAddr::CTRL2);
+    ctrl1 |= (1 << 7);
+    writeCachedReg(DRV8461RegAddr::CTRL1);
   }
 
   /// Disables the driver (EN_OUT = 0).
   void disableDriver()
   {
-    ctrl2 &= ~(1 << 7);
-    writeCachedReg(DRV8461RegAddr::CTRL2);
+    ctrl1 &= ~(1 << 7);
+    writeCachedReg(DRV8461RegAddr::CTRL1);
   }
 
   /// Sets the driver's decay mode (DECAY).
@@ -496,8 +633,8 @@ public:
   /// ~~~
   void setDecayMode(DRV8461DecayMode mode)
   {
-    ctrl2 = (ctrl2 & 0b11111000) | ((uint8_t)mode & 0b111);
-    writeCachedReg(DRV8461RegAddr::CTRL2);
+    ctrl1 = (ctrl1 & 0b11111000) | ((uint8_t)mode & 0b111);
+    writeCachedReg(DRV8461RegAddr::CTRL1);
   }
 
   /// Sets the motor direction (DIR).
@@ -512,13 +649,13 @@ public:
   {
     if (value)
     {
-      ctrl3 |= (1 << 7);
+      ctrl2 |= (1 << 7);
     }
     else
     {
-      ctrl3 &= ~(1 << 7);
+      ctrl2 &= ~(1 << 7);
     }
-    writeCachedReg(DRV8461RegAddr::CTRL3);
+    writeCachedReg(DRV8461RegAddr::CTRL2);
   }
 
   /// Returns the cached value of the motor direction (DIR).
@@ -526,7 +663,7 @@ public:
   /// This does not perform any SPI communication with the driver.
   bool getDirection()
   {
-    return (ctrl3 >> 7) & 1;
+    return (ctrl2 >> 7) & 1;
   }
 
   /// Advances the indexer by one step (STEP = 1).
@@ -538,39 +675,39 @@ public:
   /// The driver automatically clears the STEP bit after it is written.
   void step()
   {
-    driver.writeReg(DRV8461RegAddr::CTRL3, ctrl3 | (1 << 6));
+    driver.writeReg(DRV8461RegAddr::CTRL2, ctrl2 | (1 << 6));
   }
 
   /// Enables direction control through SPI (SPI_DIR = 1), allowing
   /// setDirection() to override the DIR pin.
   void enableSPIDirection()
   {
-    ctrl3 |= (1 << 5);
-    writeCachedReg(DRV8461RegAddr::CTRL3);
+    ctrl2 |= (1 << 5);
+    writeCachedReg(DRV8461RegAddr::CTRL2);
   }
 
   /// Disables direction control through SPI (SPI_DIR = 0), making the DIR pin
   /// control direction instead.
   void disableSPIDirection()
   {
-    ctrl3 &= ~(1 << 5);
-    writeCachedReg(DRV8461RegAddr::CTRL3);
+    ctrl2 &= ~(1 << 5);
+    writeCachedReg(DRV8461RegAddr::CTRL2);
   }
 
   /// Enables stepping through SPI (SPI_STEP = 1), allowing step() to override
   /// the STEP pin.
   void enableSPIStep()
   {
-    ctrl3 |= (1 << 4);
-    writeCachedReg(DRV8461RegAddr::CTRL3);
+    ctrl2 |= (1 << 4);
+    writeCachedReg(DRV8461RegAddr::CTRL2);
   }
 
   /// Disables stepping through SPI (SPI_STEP = 0), making the STEP pin control
   /// stepping instead.
   void disableSPIStep()
   {
-    ctrl3 &= ~(1 << 4);
-    writeCachedReg(DRV8461RegAddr::CTRL3);
+    ctrl2 &= ~(1 << 4);
+    writeCachedReg(DRV8461RegAddr::CTRL2);
   }
 
   /// Sets the driver's stepping mode (MICROSTEP_MODE).
@@ -586,6 +723,9 @@ public:
   /// ~~~{.cpp}
   /// sd.setStepMode(DRV8461StepMode::MicroStep32);
   /// ~~~
+
+stop ---------------------------CORRECT UP TO HERE
+
   void setStepMode(DRV8461StepMode mode)
   {
     if (mode > DRV8461StepMode::MicroStep256)
@@ -780,7 +920,7 @@ protected:
   }
 
 public:
-  /// This object handles all the communication with the DRV8711.  Generally,
+  /// This object handles all the communication with the DRV8461.  Generally,
   /// you should not need to use it in your code for basic usage of a
   /// High-Power Stepper Motor Driver, but you might want to use it to access
   /// more advanced settings that the HighPowerStepperDriver class does not
