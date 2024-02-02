@@ -23,61 +23,61 @@
 /// Addresses of all registers.
 enum class DRV8461RegAddr : uint8_t
 {
-  FAULT        = 0x00             // Fault status register.
-  DIAG1        = 0x01             // DIAG status 1.
-  DIAG2        = 0x02             // DIAG status 2.
-  DIAG3        = 0x03             // DIAG status 3.
-  CTRL1        = 0x04             // Control register 1.
-  CTRL2        = 0x05             // Control register 2.
-  CTRL3        = 0x06             // Control register 3.
-  CTRL4        = 0x07             // Control register 4.
-  CTRL5        = 0x08             // Control register 5.
-  CTRL6        = 0x09             // Control register 6.
-  CTRL7        = 0x0A             // Control register 7.
-  CTRL8        = 0x0B             // Control register 8.
-  CTRL9        = 0x0C             // Control register 9.
-  CTRL10       = 0x0D             // Control Register 10.
-  CTRL11       = 0x0E             // Control Register 11.
-  CTRL12       = 0x0F             // Control Register 12.
-  CTRL13       = 0x10             // Control Register 13.
-  INDEX1       = 0x11             // Index Register 1.
-  INDEX2       = 0x12             // Index Register 2.
-  INDEX3       = 0x13             // Index Register 3.
-  INDEX4       = 0x14             // Index Register 4.
-  INDEX5       = 0x15             // Index Register 5.
-  CUSTOM_CTRL1 = 0x16             // Custom Microstep Register 1.
-  CUSTOM_CTRL2 = 0x17             // Custom Microstep Register 2
-  CUSTOM_CTRL3 = 0x18             // Custom Microstep Register 3
-  CUSTOM_CTRL4 = 0x19             // Custom Microstep Register 4
-  CUSTOM_CTRL5 = 0x1A             // Custom Microstep Register 5
-  CUSTOM_CTRL6 = 0x1B             // Custom Microstep Register 6
-  CUSTOM_CTRL7 = 0x1C             // Custom Microstep Register 7
-  CUSTOM_CTRL8 = 0x1D             // Custom Microstep Register 8
-  CUSTOM_CTRL9 = 0x1E             // Custom Microstep Register 9
-  ATQ_CTRL1    = 0x1F             // Auto Torque Register 1.
-  ATQ_CTRL2    = 0x20             // Auto Torque Register 2.
-  ATQ_CTRL3    = 0x21             // Auto Torque Register 3.
-  ATQ_CTRL4    = 0x22             // Auto Torque Register 4.
-  ATQ_CTRL5    = 0x23             // Auto Torque Register 5.
-  ATQ_CTRL6    = 0x24             // Auto Torque Register 6.
-  ATQ_CTRL7    = 0x25             // Auto Torque Register 7.
-  ATQ_CTRL8    = 0x26             // Auto Torque Register 8.
-  ATQ_CTRL9    = 0x27             // Auto Torque Register 9.
-  ATQ_CTRL10   = 0x28             // Auto Torque Register 10.
-  ATQ_CTRL11   = 0x29             // Auto Torque Register 11.
-  ATQ_CTRL12   = 0x2A             // Auto Torque Register 12.
-  ATQ_CTRL13   = 0x2B             // Auto Torque Register 13.
-  ATQ_CTRL14   = 0x2C             // Auto Torque Register 14.
-  ATQ_CTRL15   = 0x2D             // Auto Torque Register 15.
-  ATQ_CTRL16   = 0x2E             // Auto Torque Register 16.
-  ATQ_CTRL17   = 0x2F             // Auto Torque Register 17.
-  ATQ_CTRL18   = 0x30             // Auto Torque Register 18.
-  SS_CTRL1     = 0x31             // Silent Step Register 1.
-  SS_CTRL2     = 0x32             // Silent Step Register 2.
-  SS_CTRL3     = 0x33             // Silent Step Register 3.
-  SS_CTRL4     = 0x34             // Silent Step Register 4.
-  SS_CTRL5     = 0x35             // Silent Step Register 5.
-  CTRL14       = 0x3C             // Control Register 14.
+  FAULT        = 0x00,             // Fault status register.
+  DIAG1        = 0x01,             // DIAG status 1.
+  DIAG2        = 0x02,             // DIAG status 2.
+  DIAG3        = 0x03,             // DIAG status 3.
+  CTRL1        = 0x04,             // Control register 1.
+  CTRL2        = 0x05,             // Control register 2.
+  CTRL3        = 0x06,             // Control register 3.
+  CTRL4        = 0x07,             // Control register 4.
+  CTRL5        = 0x08,             // Control register 5.
+  CTRL6        = 0x09,             // Control register 6.
+  CTRL7        = 0x0A,             // Control register 7.
+  CTRL8        = 0x0B,             // Control register 8.
+  CTRL9        = 0x0C,             // Control register 9.
+  CTRL10       = 0x0D,             // Control Register 10.
+  CTRL11       = 0x0E,             // Control Register 11.
+  CTRL12       = 0x0F,             // Control Register 12.
+  CTRL13       = 0x10,             // Control Register 13.
+  INDEX1       = 0x11,             // Index Register 1.
+  INDEX2       = 0x12,             // Index Register 2.
+  INDEX3       = 0x13,             // Index Register 3.
+  INDEX4       = 0x14,             // Index Register 4.
+  INDEX5       = 0x15,             // Index Register 5.
+  CUSTOM_CTRL1 = 0x16,             // Custom Microstep Register 1.
+  CUSTOM_CTRL2 = 0x17,             // Custom Microstep Register 2
+  CUSTOM_CTRL3 = 0x18,             // Custom Microstep Register 3
+  CUSTOM_CTRL4 = 0x19,             // Custom Microstep Register 4
+  CUSTOM_CTRL5 = 0x1A,             // Custom Microstep Register 5
+  CUSTOM_CTRL6 = 0x1B,             // Custom Microstep Register 6
+  CUSTOM_CTRL7 = 0x1C,             // Custom Microstep Register 7
+  CUSTOM_CTRL8 = 0x1D,             // Custom Microstep Register 8
+  CUSTOM_CTRL9 = 0x1E,             // Custom Microstep Register 9
+  ATQ_CTRL1    = 0x1F,             // Auto Torque Register 1.
+  ATQ_CTRL2    = 0x20,             // Auto Torque Register 2.
+  ATQ_CTRL3    = 0x21,             // Auto Torque Register 3.
+  ATQ_CTRL4    = 0x22,             // Auto Torque Register 4.
+  ATQ_CTRL5    = 0x23,             // Auto Torque Register 5.
+  ATQ_CTRL6    = 0x24,             // Auto Torque Register 6.
+  ATQ_CTRL7    = 0x25,             // Auto Torque Register 7.
+  ATQ_CTRL8    = 0x26,             // Auto Torque Register 8.
+  ATQ_CTRL9    = 0x27,             // Auto Torque Register 9.
+  ATQ_CTRL10   = 0x28,             // Auto Torque Register 10.
+  ATQ_CTRL11   = 0x29,             // Auto Torque Register 11.
+  ATQ_CTRL12   = 0x2A,             // Auto Torque Register 12.
+  ATQ_CTRL13   = 0x2B,             // Auto Torque Register 13.
+  ATQ_CTRL14   = 0x2C,             // Auto Torque Register 14.
+  ATQ_CTRL15   = 0x2D,             // Auto Torque Register 15.
+  ATQ_CTRL16   = 0x2E,             // Auto Torque Register 16.
+  ATQ_CTRL17   = 0x2F,             // Auto Torque Register 17.
+  ATQ_CTRL18   = 0x30,             // Auto Torque Register 18.
+  SS_CTRL1     = 0x31,             // Silent Step Register 1.
+  SS_CTRL2     = 0x32,             // Silent Step Register 2.
+  SS_CTRL3     = 0x33,             // Silent Step Register 3.
+  SS_CTRL4     = 0x34,             // Silent Step Register 4.
+  SS_CTRL5     = 0x35,             // Silent Step Register 5.
+  CTRL14       = 0x3C,             // Control Register 14.
 };
 
 /// Bits that are set in the return value of readFault() to indicate warning and
@@ -575,7 +575,7 @@ public:
     if (percent < (1/256)*100) { percent = 0.4; }
 
     uint8_t td = (percent * 64) / 25; // convert 0.4-100% to 1-256,
-    td = td - 1
+    td = td - 1;
     ctrl11 = 0b00000000 | (td);
     writeCachedReg(DRV8461RegAddr::CTRL11);
   }
@@ -937,3 +937,4 @@ public:
   /// provide functions for.
   DRV8461SPI driver;
 };
+#endif
